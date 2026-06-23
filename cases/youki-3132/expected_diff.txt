@@ -1,0 +1,7 @@
+### Issue youki-3132
+| 运行时 | 状态 | 退出码 | 关键输出 (Stdout) | 错误详情 |
+| --- | --- | --- | --- | --- |
+| runc | success | 0 | `FIXED: 日志分级正常，未发现误报的 ERROR 级别日志。` |  |
+| crun | success | 0 | `FIXED: 日志分级正常，未发现误报的 ERROR 级别日志。` |  |
+| youki-buggy | failed | 0 | `` | BUG 触发: 捕捉到非致命性的 ERROR 日志！内容截取: [31mERROR[0m [2mlibcontainer::capabilities[0m[2m:[0m failed to set ambient capabilities: failed to set capabilities: caps error: PR_CAP_AMBIENT_... |
+| youki-fixed | success | 0 | `FIXED: 日志分级正常，未发现误报的 ERROR 级别日志。` |  |

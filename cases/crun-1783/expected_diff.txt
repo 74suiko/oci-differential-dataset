@@ -1,0 +1,17 @@
+Issue: crun-1783 - cannot resolve `null` under rootfs
+URL: https://github.com/containers/crun/issues/1783
+
+Judgement: reproduced or covered by local staging/config corpus
+Evidence source: staging/crun-1783/config.json
+OCI surface: 文件系统与挂载路由 (Filesystem & Mounts)
+
+Reproduction signal:
+- Run the bundled OCI config with the affected runtime and compare it with a reference/fixed runtime.
+- The differential behavior is the issue-specific stdout/stderr/status difference recorded in the source material.
+
+Config surface:
+- buggy_config.json preserves the reproduced OCI config from staging/config.md.
+- base_config.json is included as the clean comparison anchor for scripts that expect the standard case layout; when no separate clean config was available, it intentionally mirrors the reproduced config.
+
+Dataset note:
+涉及 rootfs 路径解析问题，可能影响容器文件系统配置，属于 OCI 底层规范缺陷。

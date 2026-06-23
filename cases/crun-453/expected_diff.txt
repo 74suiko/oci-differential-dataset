@@ -1,0 +1,21 @@
+Issue: crun-453 - invalid seccomp action `SCMP_ACT_LOG`
+URL: https://github.com/containers/crun/issues/453
+
+Judgement: useful
+Evidence source: test_summary_useful_0523.md [20260526-0118]
+Result source: test_summary/crun_reproduction_useful.md
+Version/config source: reports/logs_20260616-135443/crun-453.json
+OCI spec point: Linux 专属配置 (Linux-specific Configuration); config-linux.md#seccomp; seccomp action SCMP_ACT_LOG。
+Reproduction signal: SCMP_ACT_LOG 应被接受；crun-buggy 将其视为 invalid，crun-fixed 成功运行。
+Config surface: linux, process
+
+Curated runtime results:
+| runtime | version | status | exitCode | stdout | error |
+| --- | --- | --- | --- | --- | --- |
+| runc | runc version 1.3.4-0ubuntu1~24.04.1 | success | 0 | `seccomp-log-action-453` |  |
+| youki | youki version: 0.6.0 | success | 0 | `seccomp-log-action-453` |  |
+| crun-buggy | crun version 1.18.2.0.0.0.17-52ed | failed | 1 | `` | invalid seccomp action \`SCMP_ACT_LOG\` |
+| crun-fixed | crun version 1.27.1.0.0.0.29-856f4 | success | 0 | `seccomp-log-action-453` |  |
+
+Expected differential behavior:
+SCMP_ACT_LOG 应被接受；crun-buggy 将其视为 invalid，crun-fixed 成功运行。

@@ -1,0 +1,7 @@
+### Issue youki-3199
+| 运行时      | 状态    | 退出码 | 关键输出 (Stdout) | 错误详情 |
+| ----------- | ------- | ------ | ----------------- | -------- |
+| runc        | success | 0      | `i686`            |          |
+| crun        | success | 0      | `i686`            |          |
+| youki-buggy | success | 0      | `x86_64`          |          |
+| youki-fixed | success | 0      | `i686`            |          |

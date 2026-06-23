@@ -1,0 +1,7 @@
+### Issue youki-2756
+| 运行时      | 状态    | 退出码 | 关键输出 (Stdout)  | 错误详情                                                     |
+| ----------- | ------- | ------ | ------------------ | ------------------------------------------------------------ |
+| runc        | success | 0      | `0000000020200420` |                                                              |
+| crun        | success | 0      | `0000000020200420` |                                                              |
+| youki-buggy | failed  | 255    | ``                 | [31mERROR[0m [2mlibcontainer::workload::default[0m[2m:[0m PATH environment variable is not set |
+| youki-fixed | success | 0      | `0000000020200420` |                                                              |

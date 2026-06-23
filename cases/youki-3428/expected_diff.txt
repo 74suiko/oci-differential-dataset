@@ -1,0 +1,7 @@
+### Issue youki-3428
+| 运行时      | 状态    | 退出码 | 关键输出 (Stdout) | 错误详情                   |
+| ----------- | ------- | ------ | ----------------- | -------------------------- |
+| runc        | success | 0      | `bbb`             |                            |
+| crun        | success | 0      | `bbb`             |                            |
+| youki-buggy | failed  | 0      | ``                | 环境变量丢失！当前输出: '' |
+| youki-fixed | success | 0      | `bbb`             |                            |

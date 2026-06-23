@@ -1,0 +1,15 @@
+Issue ID: opencontainers/runc#5073
+Category: Linux-specific Configuration (Cgroups Device Filter & eBPF)
+
+[背景说明]
+OCI 规范允许通过 linux.resources.devices 字段对容器内的设备节点访问权限（读 r、写 w、创建 m）进行细粒度控制。在现代 Linux 内核中，这一隔离机制通常由运行时（Runtime）编译并挂载 eBPF (Extended Berkeley Packet Filter) 程序到 Cgroup v2 来强制执行。为了测试该底层的 eBPF 过滤器，测试用例必须预先解除外层的 Capabilities (赋予 CAP_MKNOD) 和 Seccomp 拦截，使系统调用能够穿透至 Cgroup 校验层。
+
+[预期行为 (Expected Behavior - crun)]
+crun 能够严格按照 OCI 配置中的 access 规则生成 eBPF 字节码。当配置仅授予特定设备（如 12:42）的读取权限（"access": "r"）时，任何尝试在容器内执行 mknod 的越权创建操作都会被 eBPF 程序精准拦截，内核返回 EPERM (Operation not permitted)。
+
+[异常行为 (Buggy Behavior - runc v1.3.3 及之前版本)]
+带有缺陷的 runc 在将 OCI 设备规则转换为 eBPF 过滤指令时存在严重的逻辑漏洞。它错误地向容器内的所有块设备（Block Devices）和字符设备（Character Devices）无条件地开放了创建权限（mknod）。这导致在通过了外层系统调用过滤后，底层的设备访问控制形同虚设，攻击者可以在容器内静默创建任意未授权的设备节点。
+
+[差分预言机判别标准 (Differential Oracle)]
+- crun_latest: exit_code != 0, stdout/stderr 包含 "Operation not permitted" (eBPF 拦截成功)
+- runc_buggy: exit_code == 0, mknod 命令执行成功，目标设备节点被违规创建。

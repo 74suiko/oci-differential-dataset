@@ -1,0 +1,236 @@
+[
+    {
+        "number": "runc-5182",
+        "title": "poststop hook is not run if poststart hook fails",
+        "url": "https://github.com/opencontainers/runc/issues/5182",
+        "analysis": {
+            "category": "钩子扩展机制 (POSIX-platform Hooks)",
+            "reason": "涉及OCI hooks执行顺序和错误处理，poststart失败时poststop未按规范运行"
+        }
+    },
+    {
+        "number": "runc-4014",
+        "title": "Undefined (and potentially incorrect) behavior when pids limit is set to 0",
+        "url": "https://github.com/opencontainers/runc/issues/4014",
+        "analysis": {
+            "category": "Linux-specific Configuration",
+            "reason": "pids limit 是 OCI Linux 资源配置的一部分，值为 0 时可能导致未定义行为，属于资源限制相关缺陷。"
+        }
+    },
+    {
+        "number": "runc-5073",
+        "title": "mknod permission always granted on block and char devs no matter what the allow string is in specs",
+        "url": "https://github.com/opencontainers/runc/issues/5073",
+        "analysis": {
+            "category": "Linux-specific Configuration",
+            "reason": "涉及容器中 mknod 权限控制，与 Linux 设备节点创建隔离相关。"
+        }
+    },
+    {
+        "number": "youki-3266",
+        "title": "The default filemode for device creation are different from runc’s.",
+        "url": "https://github.com/youki-dev/youki/issues/3266",
+        "analysis": {
+            "category": "Linux 专属底层隔离 (Linux-specific Configuration)",
+            "reason": "涉及 OCI 规范中 linux.devices 配置的解析与应用。不同运行时（youki vs runc）在通过 mknod 创建 Linux 底层设备节点时，采用的默认文件权限掩码（File Mode）不一致，属于典型的 Linux 专属配置差异。"
+        }
+    },
+    {
+        "number": "crun-1083",
+        "title": "runc incompatibility wrt. cgroup memory limits",
+        "url": "https://github.com/containers/crun/issues/1083",
+        "analysis": {
+            "category": "Linux 专属底层隔离 (Linux-specific Configuration)",
+            "reason": "涉及 cgroup 内存限制的兼容性问题，属于 OCI 底层隔离缺陷。"
+        }
+    },
+    {
+        "number": "crun-1099",
+        "title": "why are `--device`s bind-mounted?",
+        "url": "https://github.com/containers/crun/issues/1099",
+        "analysis": {
+            "category": "Linux 专属底层隔离 (Linux-specific Configuration)",
+            "reason": "涉及设备文件在容器内的挂载方式与用户命名空间权限问题，属于底层隔离配置缺陷。"
+        }
+    },
+    {
+        "number": "crun-1161",
+        "title": "crun and runc differ in their default eBPF cgroup device rules",
+        "url": "https://github.com/containers/crun/issues/1161",
+        "analysis": {
+            "category": "Linux 专属底层隔离 (Linux-specific Configuration)",
+            "reason": "涉及 eBPF cgroup 设备规则默认行为差异，属于 Linux 底层隔离配置问题。"
+        }
+    },
+    {
+        "number": "crun-129",
+        "title": "crun hangs when an OCI hook exists non-zero",
+        "url": "https://github.com/containers/crun/issues/129",
+        "analysis": {
+            "category": "钩子扩展机制 (POSIX-platform Hooks)",
+            "reason": "涉及 OCI 钩子执行失败导致容器运行时挂起，属于钩子扩展机制缺陷。"
+        }
+    },
+    {
+        "number": "crun-13",
+        "title": "$PATH lookup before exec'ing the container process",
+        "url": "https://github.com/containers/crun/issues/13",
+        "analysis": {
+            "category": "进程与执行上下文 (Process & Execution)",
+            "reason": "涉及容器进程执行前的环境变量（如 $PATH）处理，属于 OCI 进程与执行上下文规范。"
+        }
+    },
+    {
+        "number": "crun-1307",
+        "title": "\"Error: OCI runtime error: crun: open '...': Not a directory\" when destination path element exists as file",
+        "url": "https://github.com/containers/crun/issues/1307",
+        "analysis": {
+            "category": "文件系统与挂载路由 (Filesystem & Mounts)",
+            "reason": "涉及容器运行时在挂载时处理文件与目录冲突的底层文件系统行为，属于 OCI 规范中的配置解析或执行问题。"
+        }
+    },
+    {
+        "number": "crun-1783",
+        "title": "cannot resolve `null` under rootfs",
+        "url": "https://github.com/containers/crun/issues/1783",
+        "analysis": {
+            "category": "文件系统与挂载路由 (Filesystem & Mounts)",
+            "reason": "涉及 rootfs 路径解析问题，可能影响容器文件系统配置，属于 OCI 底层规范缺陷。"
+        }
+    },
+    {
+        "number": "crun-1943",
+        "title": "poststart hook with `/bin/false` gives different results for `crun` and `runc`",
+        "url": "https://github.com/containers/crun/issues/1943",
+        "analysis": {
+            "category": "钩子扩展机制 (POSIX-platform Hooks)",
+            "reason": "涉及 poststart hook 执行行为在不同 OCI 运行时（crun vs runc）中的不一致性，属于 OCI 规范钩子机制缺陷。"
+        }
+    },
+    {
+        "number": "crun-237",
+        "title": "crun restricts loopback IP when network=none",
+        "url": "https://github.com/containers/crun/issues/237",
+        "analysis": {
+            "category": "Linux 专属底层隔离 (Linux-specific Configuration)",
+            "reason": "涉及网络命名空间隔离缺陷，crun 在 network=none 时错误限制环回 IP，属于 OCI 底层隔离配置问题。"
+        }
+    },
+    {
+        "number": "crun-353",
+        "title": "return stderr of hooks in case of an error",
+        "url": "https://github.com/containers/crun/issues/353",
+        "analysis": {
+            "category": "钩子扩展机制 (POSIX-platform Hooks)",
+            "reason": "涉及 OCI 钩子执行错误时的 stderr 返回机制，属于钩子扩展机制的底层规范问题。"
+        }
+    },
+    {
+        "number": "crun-453",
+        "title": "invalid seccomp action `SCMP_ACT_LOG`",
+        "url": "https://github.com/containers/crun/issues/453",
+        "analysis": {
+            "category": "Linux 专属底层隔离 (Linux-specific Configuration)",
+            "reason": "涉及 seccomp 安全配置错误，属于 OCI Linux 专属底层隔离问题。"
+        }
+    },
+    {
+        "number": "crun-876",
+        "title": "support cgroupv1 cpu.idle setting",
+        "url": "https://github.com/containers/crun/issues/876",
+        "analysis": {
+            "category": "Linux 专属底层隔离 (Linux-specific Configuration)",
+            "reason": "涉及 cgroupv1 的 cpu.idle 配置支持，属于 Linux Cgroup 隔离机制的核心扩展。"
+        }
+    },
+    {
+        "number": "youki-2756",
+        "title": "`runc` differences given the same `config.json`",
+        "url": "https://github.com/youki-dev/youki/issues/2756",
+        "analysis": {
+            "category": "进程与执行上下文 (Process & Execution)",
+            "reason": "The issue discusses differences in behavior when using the same OCI config.json with runc, which directly relates to the OCI Runtime Specification and potential inconsistencies in implementation."
+        }
+    },
+    {
+        "number": "youki-2994",
+        "title": "[Bug]: youki does not conform with OCI runtime spec",
+        "url": "https://github.com/youki-dev/youki/issues/2994",
+        "analysis": {
+            "category": "生命周期与状态流转 (Lifecycle & State)",
+            "reason": "The issue directly references the OCI runtime specification, specifically the lifecycle and hook execution requirements. It points out that the runtime (youki) is executing the 'createRuntime' hook while the container is in the 'creating' state, whereas the spec states that this hook should be invoked after the container reaches the 'created' state. This is a clear violation of the OCI specification's defined order of operations and state management."
+        }
+    },
+    {
+        "number": "youki-3132",
+        "title": "[Bug]: Normal logs logged at Error level in container create",
+        "url": "https://github.com/youki-dev/youki/issues/3132",
+        "analysis": {
+            "category": "Linux 专属底层隔离 (Linux-specific Configuration)",
+            "reason": "The issue discusses logs at error level during container creation, specifically related to cgroup mounting and ambient capabilities, which are core aspects of OCI runtime specification (e.g., runc). These logs involve low-level operations like filesystem mounting and capability management that directly impact container isolation and security, making it relevant to OCI's underlying container execution and security standards."
+        }
+    },
+    {
+        "number": "youki-3186",
+        "title": "[Bug]: Check if hook order is correct",
+        "url": "https://github.com/youki-dev/youki/issues/3186",
+        "analysis": {
+            "category": "钩子扩展机制 (POSIX-platform Hooks)",
+            "reason": "The issue discusses the order of OCI hooks (specifically 'create_container' and 'prestart') in the container lifecycle, referencing the OCI runtime specification for proper execution sequence, which is a core aspect of OCI compliance and container runtime behavior."
+        }
+    },
+    {
+        "number": "youki-3198",
+        "title": "Difference in how commands are passed after exec and ps",
+        "url": "https://github.com/youki-dev/youki/issues/3198",
+        "analysis": {
+            "category": "进程与执行上下文 (Process & Execution)",
+            "reason": "The issue describes a discrepancy in how commands and arguments are parsed for 'exec' and 'ps' commands between youki and runc, specifically regarding the requirement of a double dash (--) to separate options from arguments. This relates to OCI runtime specifications, as runc is the reference implementation, and such differences can affect compatibility and adherence to expected behavior in container execution and process listing."
+        }
+    },
+    {
+        "number": "youki-3199",
+        "title": "Add Linux personality support",
+        "url": "https://github.com/youki-dev/youki/issues/3199",
+        "analysis": {
+            "category": "Linux 专属底层隔离 (Linux-specific Configuration)",
+            "reason": "The issue discusses adding support for Linux personality, which is explicitly mentioned in the OCI runtime-spec config-linux.md as part of the configuration. This relates to enhancing compatibility with runc, an OCI-compliant runtime, indicating a potential gap in implementing the OCI specification."
+        }
+    },
+    {
+        "number": "youki-3293",
+        "title": "[Bug]: Ambient capabilities are not applied as expected",
+        "url": "https://github.com/youki-dev/youki/issues/3293",
+        "analysis": {
+            "category": "进程与执行上下文 (Process & Execution)",
+            "reason": "The issue discusses a bug in applying ambient capabilities in a container runtime (youki), comparing it to runc's implementation. Ambient capabilities are part of the Linux capabilities system, which is covered under the OCI runtime specification's security configuration (e.g., in the 'process' section for capabilities). The bug relates to how errors are handled during capability setting, which can affect container security and compliance with OCI specs, making it a relevant underlying defect in OCI container runtime implementation."
+        }
+    },
+    {
+        "number": "youki-3320",
+        "title": "rbind,ro mount is read-only but not recursively",
+        "url": "https://github.com/youki-dev/youki/issues/3320",
+        "analysis": {
+            "category": "文件系统与挂载路由 (Filesystem & Mounts)",
+            "reason": "The issue reports a discrepancy in mount behavior where 'rbind,ro' options are applied recursively as read-only in youki, contrary to the expected OCI runtime specification. It references OCI runc tests and involves container mount configuration, indicating a potential violation of OCI container runtime standards."
+        }
+    },
+    {
+        "number": "youki-3428",
+        "title": "[Bug]: config.json env is not inherited into processes spawned with exec",
+        "url": "https://github.com/youki-dev/youki/issues/3428",
+        "analysis": {
+            "category": "进程与执行上下文 (Process & Execution)",
+            "reason": "The issue title '[Bug]: config.json env is not inherited into processes spawned with exec' directly relates to environment variable inheritance in container processes, which is a core aspect of the OCI Runtime Specification (e.g., sections on process configuration and exec behavior). This indicates a potential defect in how container runtimes handle environment variables during exec operations, making it relevant to OCI's underlying container standards."
+        }
+    },
+    {
+        "number": "youki-3431",
+        "title": "[Bug]: each youki exec adds more proc mounts to the filesystem",
+        "url": "https://github.com/youki-dev/youki/issues/3431",
+        "analysis": {
+            "category": "文件系统与挂载路由 (Filesystem & Mounts)",
+            "reason": "The issue describes a problem where each 'youki exec' command adds duplicate mounts to the filesystem, specifically /proc submounts, which violates the expected behavior that mounts should not be duplicated. This relates to OCI runtime-spec's requirements for managing mounts and filesystem state, as it affects container isolation and consistency."
+        }
+    }
+]

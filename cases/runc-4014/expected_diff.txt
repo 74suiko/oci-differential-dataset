@@ -1,0 +1,15 @@
+Issue ID: opencontainers/runc#4014
+Category: Linux-specific Configuration (Cgroups & Process Execution)
+
+[背景说明]
+在早期的 OCI 规范中，针对 linux.resources.pids.limit 字段设置为 0 时的语义缺乏明确的约束（即：0 代表“无限制”、“未设置”还是“严格限制为0”）。这种规范的模糊性导致了不同容器运行时的底层实现产生了严重分歧。
+
+[预期行为 (Expected Behavior - crun)]
+crun 将 pids.limit = 0 在语义上安全地泛化为“无限制 (unlimited)”。在启动容器时，它会向宿主机内核的 cgroup pids.max 文件中写入 "max"。容器进程能够成功启动，并正确输出 "max"。
+
+[异常行为 (Buggy Behavior - runc v1.1.7 及之前版本)]
+受限于 Go 语言的零值特性（未采用指针区分 0 与 nil）以及对语义的硬解析，带有缺陷的 runc 错误地将 0 作为字面限制值（或视为 no-op 导致继承极小的父级阈值）应用到 cgroup 中。这导致容器内的 Init 进程在尝试 fork() 执行启动命令时，触发了内核级的 PID 资源耗尽（Resource Exhaustion）拒绝策略，容器直接启动失败并抛出错误。
+
+[差分预言机判别标准 (Differential Oracle)]
+- crun_latest: exit_code == 0, stdout 包含 "max"
+- runc_buggy: exit_code != 0, 且标准错误输出 (stderr) 包含容器启动或进程 fork 失败的相关报错。

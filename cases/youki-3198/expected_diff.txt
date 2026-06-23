@@ -1,0 +1,7 @@
+### Issue youki-3198
+| 运行时 | 状态 | 退出码 | 关键输出 (Stdout) | 错误详情 |
+| --- | --- | --- | --- | --- |
+| runc | success | 0 | `FIXED: 无需 '--' 即可正确解析 exec 命令参数！` |  |
+| crun | success | 0 | `FIXED: 无需 '--' 即可正确解析 exec 命令参数！` |  |
+| youki-buggy | failed | 2 | `` | BUG 触发: CLI 无法解析不带 '--' 的参数！报错: error: unexpected argument '-c' found  tip: to pass '-c' as a value, use '-- -c' Usage: youki-bug \| |
+| youki-fixed | success | 0 | `FIXED: 无需 '--' 即可正确解析 exec 命令参数！` |  |

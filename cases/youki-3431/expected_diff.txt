@@ -1,0 +1,7 @@
+### Issue youki-3431
+| 运行时 | 状态 | 退出码 | 关键输出 (Stdout) | 错误详情 |
+| --- | --- | --- | --- | --- |
+| runc | success | 0 | `FIXED: 挂载表保持纯净 (当前总行数: 17)` |  |
+| crun | success | 0 | `FIXED: 挂载表保持纯净 (当前总行数: 17)` |  |
+| youki-buggy | failed | 0 | `` | BUG 触发: 连续 exec 导致挂载表严重膨胀 (当前总行数: 53)！ |
+| youki-fixed | success | 0 | `FIXED: 挂载表保持纯净 (当前总行数: 17)` |  |

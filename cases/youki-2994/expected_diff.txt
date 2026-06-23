@@ -1,0 +1,7 @@
+### Issue youki-2994
+| 运行时      | 状态    | 退出码 | 关键输出 (Stdout)                | 错误详情 |
+| ----------- | ------- | ------ | -------------------------------- | -------- |
+| runc        | success | 0      | `status: creating, pid: 8031`    |          |
+| crun        | success | 0      | `status: created, pid: 8063`     |          |
+| youki-buggy | success | 0      | `status: creating, pid: MISSING` |          |
+| youki-fixed | success | 0      | `status: creating, pid: 8099`    |          |

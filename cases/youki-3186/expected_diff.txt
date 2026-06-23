@@ -1,0 +1,14 @@
+### Issue youki-3186
+| 运行时                  | 状态    | 退出码 | 关键输出 (Stdout) | 错误详情 |
+| ----------------------- | ------- | ------ | ----------------- | -------- |
+| runc                    | success | 0      | `[Hook] prestart  |          |
+| [Hook] createContainer` |         |        |                   |          |
+| crun                    | success | 0      | `                 |          |
+| [Hook] prestart         |         |        |                   |          |
+| [Hook] createContainer` |         |        |                   |          |
+| youki-buggy             | success | 0      | `                 |          |
+| [Hook] createContainer  |         |        |                   |          |
+| [Hook] prestart`        |         |        |                   |          |
+| youki-fixed             | success | 0      | `                 |          |
+| [Hook] prestart         |         |        |                   |          |
+| [Hook] createContainer` |         |        |                   |          |

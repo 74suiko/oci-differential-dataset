@@ -1,0 +1,21 @@
+Issue: crun-1099 - why are `--device`s bind-mounted?
+URL: https://github.com/containers/crun/issues/1099
+
+Judgement: useful
+Evidence source: test_summary_useful_0607.md [20260607-2126]
+Result source: test_summary/crun_reproduction_useful.md
+Version/config source: reports/logs_20260616-135443/crun-1099.json
+OCI spec point: Linux 专属配置 (Linux-specific Configuration); config-linux.md; linux.devices.fileMode/uid/gid 与 linux.resources.devices。
+Reproduction signal: 0600 /dev/net/tun 设备在 userns 中应保留 ownership 并可打开；crun-buggy 失败，crun-fixed 输出权限/设备号并打开成功。
+Config surface: linux.namespaces, linux.uidMappings, linux.gidMappings, linux.devices, linux.resources.devices, process.args
+
+Curated runtime results:
+| runtime | version | status | exitCode | stdout | error |
+| --- | --- | --- | --- | --- | --- |
+| runc | runc version 1.3.4-0ubuntu1~24.04.1 | failed | 1 | `` |  |
+| youki | youki version: 0.6.0 | failed | 1 | `` |  |
+| crun-buggy | crun version 1.7.2.0.0.0.43-f23c | failed | 1 | `` |  |
+| crun-fixed | crun version 1.27.1.0.0.0.29-856f4 | success | 0 | `device-bind-1099\600 0 0 a:c8\tun-open-ok` |  |
+
+Expected differential behavior:
+0600 /dev/net/tun 设备在 userns 中应保留 ownership 并可打开；crun-buggy 失败，crun-fixed 输出权限/设备号并打开成功。

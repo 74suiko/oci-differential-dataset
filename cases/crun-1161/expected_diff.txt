@@ -1,0 +1,21 @@
+Issue: crun-1161 - crun and runc differ in their default eBPF cgroup device rules
+URL: https://github.com/containers/crun/issues/1161
+
+Judgement: useful
+Evidence source: test_summary_useful_0607.md [20260607-2128]
+Result source: test_summary/crun_reproduction_useful.md
+Version/config source: reports/logs_20260616-135443/crun-1161.json
+OCI spec point: Linux 专属配置 (Linux-specific Configuration); config-linux.md; linux.devices 与默认 cgroup device/eBPF 规则。
+Reproduction signal: 仅保留默认 deny 规则时，runtime 应为 configured linux.devices 合成必要 device access；crun-buggy EPERM，runc/youki/crun-fixed 可打开。
+Config surface: linux.devices, linux.resources.devices, process.args
+
+Curated runtime results:
+| runtime | version | status | exitCode | stdout | error |
+| --- | --- | --- | --- | --- | --- |
+| runc | runc version 1.3.4-0ubuntu1~24.04.1 | success | 0 | `cgroup-device-rules-1161\0::/\666 0 0 a:c8\default-device-open-ok` |  |
+| youki | youki version: 0.6.0 | success | 0 | `cgroup-device-rules-1161\0::/\666 0 0 a:c8\default-device-open-ok` |  |
+| crun-buggy | crun version 1.8.1.0.0.0.6-56a25 | failed | 1 | `` | /bin/sh: can't create /dev/net/tun: Operation not permitted |
+| crun-fixed | crun version 1.27.1.0.0.0.29-856f4 | success | 0 | `cgroup-device-rules-1161\0::/\666 0 0 a:c8\default-device-open-ok` |  |
+
+Expected differential behavior:
+仅保留默认 deny 规则时，runtime 应为 configured linux.devices 合成必要 device access；crun-buggy EPERM，runc/youki/crun-fixed 可打开。

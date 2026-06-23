@@ -1,0 +1,7 @@
+### Issue youki-3266
+| 运行时      | 状态    | 退出码 | 关键输出 (Stdout)                                            | 错误详情 |
+| ----------- | ------- | ------ | ------------------------------------------------------------ | -------- |
+| runc        | success | 0      | `crw-rw-rw-    1 root     root        1,  11 Apr 26 07:23 /dev/kmsg` |          |
+| crun        | success | 0      | `crw-rw-rw-    1 root     root        1,  11 Apr 26 07:23 /dev/kmsg` |          |
+| youki-buggy | success | 0      | `c---------    1 root     root        1,  11 Apr 26 07:23 /dev/kmsg` |          |
+| youki-fixed | success | 0      | `crw-rw-rw-    1 root     root        1,  11 Apr 26 07:23 /dev/kmsg` |          |
