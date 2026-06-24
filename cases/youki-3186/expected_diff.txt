@@ -1,14 +1,15 @@
-### Issue youki-3186
-| 运行时                  | 状态    | 退出码 | 关键输出 (Stdout) | 错误详情 |
-| ----------------------- | ------- | ------ | ----------------- | -------- |
-| runc                    | success | 0      | `[Hook] prestart  |          |
-| [Hook] createContainer` |         |        |                   |          |
-| crun                    | success | 0      | `                 |          |
-| [Hook] prestart         |         |        |                   |          |
-| [Hook] createContainer` |         |        |                   |          |
-| youki-buggy             | success | 0      | `                 |          |
-| [Hook] createContainer  |         |        |                   |          |
-| [Hook] prestart`        |         |        |                   |          |
-| youki-fixed             | success | 0      | `                 |          |
-| [Hook] prestart         |         |        |                   |          |
-| [Hook] createContainer` |         |        |                   |          |
+Issue ID: youki-3186
+Upstream URL: https://github.com/youki-dev/youki/issues/3186
+Category: POSIX-platform Hooks
+
+Payload under test:
+process args: ["sh", "-c", "cat /hook.log"]; hooks: prestart, createContainer
+
+Expected differential behavior:
+Run the same buggy_config.json with a reference runtime and an affected runtime. A valid reproduction is a stable difference in exit status, stdout, stderr, runtime state, or documented side effects for the same OCI payload.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

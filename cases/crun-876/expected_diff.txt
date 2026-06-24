@@ -1,21 +1,15 @@
-Issue: crun-876 - support cgroupv1 cpu.idle setting
-URL: https://github.com/containers/crun/issues/876
+Issue ID: crun-876
+Upstream URL: https://github.com/containers/crun/issues/876
+Category: Linux-specific Configuration
 
-Judgement: useful
-Evidence source: test_summary_useful_0523.md [20260526-1351]
-Result source: test_summary/crun_reproduction_useful.md
-Version/config source: reports/logs_20260616-135443/crun-876.json
-OCI spec point: Linux 专属配置 (Linux-specific Configuration); config-linux.md; linux.resources.cpu.idle。
-Reproduction signal: linux.resources.cpu.idle=1 未被 crun-buggy 应用，输出 0；crun-fixed 输出 1。
-Config surface: linux, process
-
-Curated runtime results:
-| runtime | version | status | exitCode | stdout | error |
-| --- | --- | --- | --- | --- | --- |
-| runc | runc version 1.3.4-0ubuntu1~24.04.1 | failed | 1 | `` | time="2026-05-26T13:51:44+08:00" level=error msg="runc run failed: unable to start container process: error during container init: error setting cgroup config for procHooks process: failed to write \" |
-| youki | youki version: 0.6.0 | success | 0 | `cpu-idle-876\1` |  |
-| crun-buggy | crun version 1.4.5.0.0.0.4-2824 | success | 0 | `cpu-idle-876\0` |  |
-| crun-fixed | crun version 1.27.1.0.0.0.29-856f4 | success | 0 | `cpu-idle-876\1` |  |
+Payload under test:
+process args: ["/bin/sh", "-c", "echo cpu-idle-876; cat /sys/fs/cgroup/cpu/cpu.idle 2>/dev/null || cat /sys/fs/cgroup/cpu.idle 2>/dev/null || true"]; linux.resources.cpu: {"shares": 1024, "idle": 1}; linux.resources.devices: [{"allow": false, "access": "rwm"}]
 
 Expected differential behavior:
-linux.resources.cpu.idle=1 未被 crun-buggy 应用，输出 0；crun-fixed 输出 1。
+Run the same buggy_config.json with a reference runtime and an affected runtime. A valid reproduction is a stable difference in exit status, stdout, stderr, runtime state, or documented side effects for the same OCI payload.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

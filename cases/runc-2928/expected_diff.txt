@@ -1,0 +1,15 @@
+Issue ID: runc-2928
+Upstream URL: https://github.com/opencontainers/runc/issues/2928
+Category: Filesystem & Mounts
+
+Payload under test:
+process args: ["/bin/sh", "-c", "cat /templated_config/marker 2>/dev/null || echo mount-not-visible"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]; relative mount destinations: [{"destination": "templated_config", "type": "bind", "source": "/tmp/runc-2928-relative-mount-source", "options": ["rbind", "ro"]}]
+
+Expected differential behavior:
+Strict builds report that templated_config is not an absolute mount destination. Compatibility builds warn or start and may expose the marker file.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

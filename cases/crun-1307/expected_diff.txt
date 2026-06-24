@@ -1,21 +1,15 @@
-Issue: crun-1307 - "Error: OCI runtime error: crun: open '...': Not a directory" when destination path element exists as file
-URL: https://github.com/containers/crun/issues/1307
+Issue ID: crun-1307
+Upstream URL: https://github.com/containers/crun/issues/1307
+Category: Filesystem & Mounts
 
-Judgement: useful
-Evidence source: test_summary_useful_0523.md [20260526-1403]
-Result source: test_summary/crun_reproduction_useful.md
-Version/config source: reports/logs_20260616-135443/crun-1307.json
-OCI spec point: 文件系统与挂载路由 (Filesystem & Mounts); config.md#mounts; mounts[].destination 路径元素为文件时的处理/诊断。
-Reproduction signal: mount destination 的中间路径为文件时，crun-buggy 只给 Not a directory，crun-fixed 指出阻塞的 etc/passwd 文件。
-Config surface: mounts, process
-
-Curated runtime results:
-| runtime | version | status | exitCode | stdout | error |
-| --- | --- | --- | --- | --- | --- |
-| runc | runc version 1.3.4-0ubuntu1~24.04.1 | failed | 1 | `` | time="2026-05-26T14:03:25+08:00" level=error msg="runc run failed: unable to start container process: error during container init: error mounting \"/tmp\" to rootfs at \"/etc/passwd/crun-mount\": crea |
-| youki | youki version: 0.6.0 | failed | 255 | `` | ERROR libcontainer::rootfs::mount: failed to mount Mount { destination: "/etc/passwd/crun-mount", typ: Some("bind"), source: Some("/tmp"), options: Some(["rbind"]), uid_mappings: None, gid_mappings: N |
-| crun-buggy | crun version 1.9.0.0.0.10-3f39 | failed | 1 | `` | mkdir \`/etc/passwd/crun-mount\`: Not a directory |
-| crun-fixed | crun version 1.27.1.0.0.0.29-856f4 | failed | 1 | `` | error creating directory \`etc/passwd/crun-mount\` since \`etc/passwd\` exists and it is not a directory: Not a directory |
+Payload under test:
+process args: ["/bin/sh", "-c", "echo mount-through-file-1307"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]; additional mounts: [{"destination": "/etc/passwd/crun-mount", "type": "bind", "source": "/tmp", "options": ["rbind"]}, {"destination": "/etc/passwd/crun-mount", "type": "bind", "source": "/tmp", "options": ["rbind"]}, {"destination": "/etc/passwd/crun-mount", "type": "bind", "source": "/tmp", "options": ["rbind"]}]
 
 Expected differential behavior:
-mount destination 的中间路径为文件时，crun-buggy 只给 Not a directory，crun-fixed 指出阻塞的 etc/passwd 文件。
+Run the same buggy_config.json with a reference runtime and an affected runtime. A valid reproduction is a stable difference in exit status, stdout, stderr, runtime state, or documented side effects for the same OCI payload.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

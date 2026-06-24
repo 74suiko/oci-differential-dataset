@@ -1,21 +1,15 @@
-Issue: crun-1943 - poststart hook with `/bin/false` gives different results for `crun` and `runc`
-URL: https://github.com/containers/crun/issues/1943
+Issue ID: crun-1943
+Upstream URL: https://github.com/containers/crun/issues/1943
+Category: POSIX-platform Hooks
 
-Judgement: useful
-Evidence source: test_summary_useful_052601.md [20260526-1755]
-Result source: test_summary/crun_reproduction_useful.md
-Version/config source: reports/logs_20260616-135443/crun-1943.json
-OCI spec point: 钩子扩展机制 (POSIX-platform Hooks); config.md#posix-platform-hooks; hooks.poststart 失败处理。
-Reproduction signal: poststart /bin/false 应导致失败；crun-buggy 仍报告容器主进程成功，crun-fixed/runc 因 hook exit 1 失败。
-Config surface: hooks, process
-
-Curated runtime results:
-| runtime | version | status | exitCode | stdout | error |
-| --- | --- | --- | --- | --- | --- |
-| runc | runc version 1.3.4-0ubuntu1~24.04.1 | failed | 1 | `` | time="2026-05-26T17:55:12+08:00" level=error msg="runc run failed: error running poststart hook #0: exit status 1, stdout: , stderr: " |
-| youki | youki version: 0.6.0 | failed | 255 | `` | ERROR libcontainer::container::container_start: failed to run post start hooks: hook command exited with non-zero exit code: 1\ERROR youki: error in executing command: failed to start container test-c |
-| crun-buggy | crun version 1.26.0.0.0.1-96e9b | success | 0 | `poststart-false-1943` |  |
-| crun-fixed | crun version 1.27.1.0.0.0.29-856f4 | failed | 255 | `` | error executing hook \`/bin/false\` (exit code: 1) |
+Payload under test:
+process args: ["/bin/sh", "-c", "echo poststart-false-1943"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]; hooks: poststart
 
 Expected differential behavior:
-poststart /bin/false 应导致失败；crun-buggy 仍报告容器主进程成功，crun-fixed/runc 因 hook exit 1 失败。
+Run the same buggy_config.json with a reference runtime and an affected runtime. A valid reproduction is a stable difference in exit status, stdout, stderr, runtime state, or documented side effects for the same OCI payload.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

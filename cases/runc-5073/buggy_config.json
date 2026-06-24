@@ -9,7 +9,7 @@
         "args": [
             "/bin/sh",
             "-c",
-            "mknod /dev/mytest2 c 42 42 && echo '\n[🚨 致命越权] 成功创建未授权设备节点！' || echo '\n[✅ 拦截成功] 权限已被 eBPF 拒绝！'"
+            "mknod /dev/mytest2 c 42 42 && echo 'unauthorized-mknod-created' || echo 'mknod-blocked'"
         ],
         "env": [
             "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
@@ -130,12 +130,12 @@
         "resources": {
             "devices": [
                 {
-                        "allow": true,
-                        "type": "c",
-                        "major": 12,
-                        "minor": 42,
-                        "access": "r" 
-                    }
+                    "allow": true,
+                    "type": "c",
+                    "major": 12,
+                    "minor": 42,
+                    "access": "r"
+                }
             ]
         },
         "namespaces": [

@@ -1,7 +1,15 @@
-### Issue youki-3132
-| 运行时 | 状态 | 退出码 | 关键输出 (Stdout) | 错误详情 |
-| --- | --- | --- | --- | --- |
-| runc | success | 0 | `FIXED: 日志分级正常，未发现误报的 ERROR 级别日志。` |  |
-| crun | success | 0 | `FIXED: 日志分级正常，未发现误报的 ERROR 级别日志。` |  |
-| youki-buggy | failed | 0 | `` | BUG 触发: 捕捉到非致命性的 ERROR 日志！内容截取: [31mERROR[0m [2mlibcontainer::capabilities[0m[2m:[0m failed to set ambient capabilities: failed to set capabilities: caps error: PR_CAP_AMBIENT_... |
-| youki-fixed | success | 0 | `FIXED: 日志分级正常，未发现误报的 ERROR 级别日志。` |  |
+Issue ID: youki-3132
+Upstream URL: https://github.com/youki-dev/youki/issues/3132
+Category: Lifecycle & State
+
+Payload under test:
+process args: ["true"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]
+
+Expected differential behavior:
+Run the same buggy_config.json with a reference runtime and an affected runtime. A valid reproduction is a stable difference in exit status, stdout, stderr, runtime state, or documented side effects for the same OCI payload.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

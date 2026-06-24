@@ -1,7 +1,15 @@
-Issue ID: opencontainers/runc#5182
+Issue ID: runc-5182
+Upstream URL: https://github.com/opencontainers/runc/issues/5182
+Category: POSIX-platform Hooks
 
-[预期行为 (Expected Behavior - crun / runc-fixed)]
-当容器的 poststart 钩子执行失败时，运行时应该在 start 阶段抛出错误。上层调度器（如 K8s）介入并执行 delete 命令以清理容器状态。在此清理过程中，poststop 钩子必须被执行以保证诸如网络 IP、挂载点等底层资源被正确释放。验证标志为 `/tmp/post-stop` 成功创建。
+Payload under test:
+process args: ["/bin/sh", "-c", "exit 0"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]; hooks: poststart, poststop
 
-[异常行为 (Buggy Behavior - runc v1.5.0-rc.1)]
-带有漏洞的 runc 在错误的生命周期（create 阶段）抢先执行了 poststart 钩子。由于钩子失败，create 动作直接终止。这导致状态机发生错乱，上层系统判定容器未创建而不下发 delete 指令，最终使得 poststop 永远不会被执行。验证标志为 `/tmp/post-stop` 缺失。
+Expected differential behavior:
+A reference runtime should run poststop cleanup after poststart failure. The affected behavior leaves /tmp/post-stop absent and prints poststop-missing.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

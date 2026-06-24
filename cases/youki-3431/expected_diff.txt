@@ -1,7 +1,15 @@
-### Issue youki-3431
-| 运行时 | 状态 | 退出码 | 关键输出 (Stdout) | 错误详情 |
-| --- | --- | --- | --- | --- |
-| runc | success | 0 | `FIXED: 挂载表保持纯净 (当前总行数: 17)` |  |
-| crun | success | 0 | `FIXED: 挂载表保持纯净 (当前总行数: 17)` |  |
-| youki-buggy | failed | 0 | `` | BUG 触发: 连续 exec 导致挂载表严重膨胀 (当前总行数: 53)！ |
-| youki-fixed | success | 0 | `FIXED: 挂载表保持纯净 (当前总行数: 17)` |  |
+Issue ID: youki-3431
+Upstream URL: https://github.com/youki-dev/youki/issues/3431
+Category: Filesystem & Mounts
+
+Payload under test:
+process args: ["sleep", "100"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]
+
+Expected differential behavior:
+The number of proc mounts should remain stable across repeated exec calls. Growth indicates the bug.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

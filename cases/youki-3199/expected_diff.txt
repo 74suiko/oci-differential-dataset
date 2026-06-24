@@ -1,7 +1,15 @@
-### Issue youki-3199
-| 运行时      | 状态    | 退出码 | 关键输出 (Stdout) | 错误详情 |
-| ----------- | ------- | ------ | ----------------- | -------- |
-| runc        | success | 0      | `i686`            |          |
-| crun        | success | 0      | `i686`            |          |
-| youki-buggy | success | 0      | `x86_64`          |          |
-| youki-fixed | success | 0      | `i686`            |          |
+Issue ID: youki-3199
+Upstream URL: https://github.com/youki-dev/youki/issues/3199
+Category: Linux-specific Configuration
+
+Payload under test:
+process args: ["uname", "-m"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]; linux.personality: {"domain": "LINUX32"}
+
+Expected differential behavior:
+Run the same buggy_config.json with a reference runtime and an affected runtime. A valid reproduction is a stable difference in exit status, stdout, stderr, runtime state, or documented side effects for the same OCI payload.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

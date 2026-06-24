@@ -1,21 +1,15 @@
-Issue: crun-1099 - why are `--device`s bind-mounted?
-URL: https://github.com/containers/crun/issues/1099
+Issue ID: crun-1099
+Upstream URL: https://github.com/containers/crun/issues/1099
+Category: Filesystem & Mounts
 
-Judgement: useful
-Evidence source: test_summary_useful_0607.md [20260607-2126]
-Result source: test_summary/crun_reproduction_useful.md
-Version/config source: reports/logs_20260616-135443/crun-1099.json
-OCI spec point: Linux 专属配置 (Linux-specific Configuration); config-linux.md; linux.devices.fileMode/uid/gid 与 linux.resources.devices。
-Reproduction signal: 0600 /dev/net/tun 设备在 userns 中应保留 ownership 并可打开；crun-buggy 失败，crun-fixed 输出权限/设备号并打开成功。
-Config surface: linux.namespaces, linux.uidMappings, linux.gidMappings, linux.devices, linux.resources.devices, process.args
-
-Curated runtime results:
-| runtime | version | status | exitCode | stdout | error |
-| --- | --- | --- | --- | --- | --- |
-| runc | runc version 1.3.4-0ubuntu1~24.04.1 | failed | 1 | `` |  |
-| youki | youki version: 0.6.0 | failed | 1 | `` |  |
-| crun-buggy | crun version 1.7.2.0.0.0.43-f23c | failed | 1 | `` |  |
-| crun-fixed | crun version 1.27.1.0.0.0.29-856f4 | success | 0 | `device-bind-1099\600 0 0 a:c8\tun-open-ok` |  |
+Payload under test:
+process args: ["/bin/sh", "-c", "set -eu; echo device-bind-1099; stat -c \"%a %u %g %t:%T\" /dev/net/tun; test \"$(stat -c %a /dev/net/tun)\" = 600; test \"$(stat -c %u:%g /dev/net/tun)\" = 0:0; exec 3<>/dev/net/tun; echo tun-open-ok"]; linux.resources.devices: [{"allow": false, "access": "rwm"}, {"allow": true, "type": "c", "major": 10, "minor": 200, "access": "rw"}]; linux.devices: [{"path": "/dev/net/tun", "type": "c", "major": 10, "minor": 200, "fileMode": 384, "uid": 0, "gid": 0}]
 
 Expected differential behavior:
-0600 /dev/net/tun 设备在 userns 中应保留 ownership 并可打开；crun-buggy 失败，crun-fixed 输出权限/设备号并打开成功。
+Run the same buggy_config.json with a reference runtime and an affected runtime. A valid reproduction is a stable difference in exit status, stdout, stderr, runtime state, or documented side effects for the same OCI payload.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

@@ -1,7 +1,15 @@
-### Issue youki-3320
-| 运行时                    | 状态    | 退出码 | 关键输出 (Stdout)  | 错误详情 |
-| ------------------------- | ------- | ------ | ------------------ | -------- |
-| runc                      | success | 0      | `Top(/mnt/foo): RO Sub(/mnt/subvol/bar): RW` |          |
-| crun                      | success | 0      | `Top(/mnt/foo): RO Sub(/mnt/subvol/bar): RW` |          |
-| youki-buggy               | success | 0      | `Top(/mnt/foo): RO Sub(/mnt/subvol/bar): RO` |          |
-| youki-fixed               | success | 0      | `Top(/mnt/foo): RO Sub(/mnt/subvol/bar): RW` |          |
+Issue ID: youki-3320
+Upstream URL: https://github.com/youki-dev/youki/issues/3320
+Category: Filesystem & Mounts
+
+Payload under test:
+process args: ["sh", "-c", "echo -n 'Top(/mnt/foo): '; touch /mnt/foo 2>/dev/null && echo RW || echo RO; echo -n 'Sub(/mnt/subvol/bar): '; touch /mnt/subvol/bar 2>/dev/null && echo RW || echo RO"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]; additional mounts: [{"destination": "/mnt", "type": "bind", "source": "/tmp/mounts_recursive", "options": ["rbind", "ro"]}]
+
+Expected differential behavior:
+Both the top-level bind mount and recursive submount should be read-only. A buggy runtime allows writes through a recursive submount.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.

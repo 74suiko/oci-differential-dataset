@@ -1,21 +1,15 @@
-Issue: crun-13 - $PATH lookup before exec'ing the container process
-URL: https://github.com/containers/crun/issues/13
+Issue ID: crun-13
+Upstream URL: https://github.com/containers/crun/issues/13
+Category: Process & Execution
 
-Judgement: useful
-Evidence source: test_summary_useful_0523.md [20260526-0109]
-Result source: test_summary/crun_reproduction_useful.md
-Version/config source: reports/logs_20260616-135443/crun-13.json
-OCI spec point: 进程与执行上下文 (Process & Execution); config.md#process; process.args/process.env; PATH 查找与 exec 语义。
-Reproduction signal: crun-buggy 在 argv[0]=sh 时 abort，runc/youki/crun-fixed 能在容器命名空间内通过 PATH 解析到 /bin/sh。
-Config surface: process
-
-Curated runtime results:
-| runtime | version | status | exitCode | stdout | error |
-| --- | --- | --- | --- | --- | --- |
-| runc | runc version 1.3.4-0ubuntu1~24.04.1 | success | 0 | `process-path-13\/bin/sh` |  |
-| youki | youki version: 0.6.0 | success | 0 | `process-path-13\/bin/sh` |  |
-| crun-buggy | crun version 1.27.0.0.0.2-e5e9 | failed | 255 | `` | aborted |
-| crun-fixed | crun version 1.27.1.0.0.0.29-856f4 | success | 0 | `process-path-13\/bin/sh` |  |
+Payload under test:
+process args: ["sh", "-c", "echo process-path-13; command -v sh"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]
 
 Expected differential behavior:
-crun-buggy 在 argv[0]=sh 时 abort，runc/youki/crun-fixed 能在容器命名空间内通过 PATH 解析到 /bin/sh。
+Run the same buggy_config.json with a reference runtime and an affected runtime. A valid reproduction is a stable difference in exit status, stdout, stderr, runtime state, or documented side effects for the same OCI payload.
+
+Validation procedure:
+1. Run this case with a known-good or reference runtime.
+2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
+3. Compare exit status, stdout, stderr, and documented side effects.
+4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.
