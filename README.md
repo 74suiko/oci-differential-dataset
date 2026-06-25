@@ -18,8 +18,6 @@ Each case directory is named with the runtime and upstream issue number, for exa
 .
 |-- README.md
 |-- metadata.json
-|-- runc_issues.json
-|-- runc_after78_skipped.md
 |-- alpine-base.tar.gz
 `-- cases/
     |-- runc-4772/
