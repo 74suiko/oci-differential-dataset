@@ -9,6 +9,9 @@
 ## Runtime Version Assessment
 Use the runtime version discussed in the upstream issue as the affected implementation and compare it with a fixed or reference runtime. Some cases require specific host support such as cgroup v1, cgroup v2, seccomp, eBPF device filtering, user namespaces, or hook execution support.
 
+## Buggy Version Identification
+Issue text does not name a release. Git log matched `98db1d2fa607` (`utils: improve error message for ensure_dir`); use parent `3f39e318e930` as the pre-fix baseline for the mount-path diagnostic behavior.
+
 ## Local Reproduction Files
 - `base_config.json`: clean OCI configuration before injecting the issue-specific payload.
 - `buggy_config.json`: modified OCI configuration containing the payload.

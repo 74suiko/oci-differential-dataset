@@ -9,6 +9,9 @@
 ## Runtime Version Assessment
 Use the runtime version discussed in the upstream issue as the affected implementation and compare it with a fixed or reference runtime. Some cases require specific host support such as cgroup v1, cgroup v2, seccomp, eBPF device filtering, user namespaces, or hook execution support.
 
+## Buggy Version Identification
+Local dataset notes identify `crun version 1.7.1.0.0.0.6-258c` as the buggy build and `crun version 1.27.1.0.0.0.29-856f4` as fixed. Git log also matched `3880f04675f5` (`cgroup: always enable controller`); parent `258c237f5947` is the pre-fix baseline.
+
 ## Local Reproduction Files
 - `base_config.json`: clean OCI configuration before injecting the issue-specific payload.
 - `buggy_config.json`: modified OCI configuration containing the payload.

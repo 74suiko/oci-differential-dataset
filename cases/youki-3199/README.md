@@ -9,6 +9,9 @@
 ## Runtime Version Assessment
 Use the runtime version discussed in the upstream issue as the affected implementation and compare it with a fixed or reference runtime. Some cases require specific host support such as cgroup v1, cgroup v2, seccomp, eBPF device filtering, user namespaces, or hook execution support.
 
+## Buggy Version Identification
+Git log matched `532ea307f70a` (`feat(3199): Add Linux personality support (#3202)`); use parent `d8674fd3d56e` as the pre-support buggy baseline.
+
 ## Local Reproduction Files
 - `base_config.json`: clean OCI configuration before injecting the issue-specific payload.
 - `buggy_config.json`: modified OCI configuration containing the payload.

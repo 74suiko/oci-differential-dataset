@@ -9,6 +9,9 @@
 ## Runtime Version Assessment
 Use the runtime version discussed in the upstream issue as the affected implementation and compare it with a fixed or reference runtime. Some cases require specific host support such as cgroup v1, cgroup v2, seccomp, eBPF device filtering, user namespaces, or hook execution support.
 
+## Buggy Version Identification
+The issue explicitly reports youki `Version 0.4.1` in its System and Setup Info, with `Commit VERGEN_IDEMPOTENT_OUTPUT`; the user reproduced it by installing youki from `main` with a dev profile on 2024-11-14. The issue page is closed and links PR #3181 for the lifecycle-state fix. Local git history maps PR #3181 to `38822f90da250e9e00ddb807e9fbdd78ba21156e` (`running create_runtime hook after container is set to created (#3181)`, 2025-06-07). Use its parent `c2ab4de08c033ba6dae867fb3cc5bd393572fb3d` as the pre-fix buggy baseline. `git describe` identifies the parent as `v0.5.3-67-gc2ab4de08c03` and the fix as contained before `v0.5.4` (`v0.5.4~16`).
+
 ## Local Reproduction Files
 - `base_config.json`: clean OCI configuration before injecting the issue-specific payload.
 - `buggy_config.json`: modified OCI configuration containing the payload.

@@ -9,6 +9,9 @@
 ## Runtime Version Assessment
 Use the runtime version discussed in the upstream issue as the affected implementation and compare it with a fixed or reference runtime. Some cases require specific host support such as cgroup v1, cgroup v2, seccomp, eBPF device filtering, user namespaces, or hook execution support.
 
+## Buggy Version Identification
+Issue text does not name a concrete crun release; the issue body only states that the reproducer is reliable. The current GitHub issue page is closed and shows a linked PR #76, but local git history shows PR #76 is a `.gitignore` change and is not semantically related to hook failure handling, so it is not used as the version oracle. The closest relevant fix in upstream git history is `e3b974cdeecebbe4f58b38905c639e89017e917c` (`container: exit immediately if a prestart hook fails`, 2017-11-19). Use its parent `fd0498a528e61218e5ebe173de666d687526951a` as the pre-fix buggy baseline. `git describe --contains` places the fix before `v0.2` (`v0.2~244`) and the parent at `v0.2~245`, so a revision at or before that parent is the version target for reproducing the hang/non-return behavior.
+
 ## Local Reproduction Files
 - `base_config.json`: clean OCI configuration before injecting the issue-specific payload.
 - `buggy_config.json`: modified OCI configuration containing the payload.

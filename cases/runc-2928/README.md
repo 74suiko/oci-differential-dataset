@@ -9,6 +9,9 @@
 ## Runtime Version Assessment
 Use the runtime version discussed in the upstream issue as the affected implementation and compare it with a fixed or reference runtime. Some cases require specific host support such as cgroup v1, cgroup v2, seccomp, eBPF device filtering, user namespaces, or hook execution support.
 
+## Buggy Version Identification
+Issue text explicitly reports the failing runc revision `d279ebd97d8832020e2c6f50cc3a11d0499a4690`. It also identifies the regression as PR #2917, including `2192670a2430` (`libct/configs/validate: validate mounts`) whose parent is `1f1e91b1a09b`.
+
 ## Local Reproduction Files
 - `base_config.json`: clean OCI configuration before injecting the issue-specific payload.
 - `buggy_config.json`: modified OCI configuration containing the payload.

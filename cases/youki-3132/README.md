@@ -9,6 +9,9 @@
 ## Runtime Version Assessment
 Use the runtime version discussed in the upstream issue as the affected implementation and compare it with a fixed or reference runtime. Some cases require specific host support such as cgroup v1, cgroup v2, seccomp, eBPF device filtering, user namespaces, or hook execution support.
 
+## Buggy Version Identification
+The issue text does not name an exact youki release; it reports the behavior on Pop OS after a recent kernel update and says it had been observed for roughly four to five months. The issue body shows two independent error-level log paths: cgroup mount retry logging and ambient capability logging. The issue page is closed and links PR #3150 and PR #3157 as relevant fixes. Local git history maps PR #3150 to `9560eb10405738668025ae69870401e28633e6c3` (`fix: capet Ambient log level`, 2025-04-19), whose parent is `df8f3aaadb61a6d488bcee08aa9c323fb5ac5dca`; it maps PR #3157 to `6b02740e8f339d558a1ddbd8ff6b1793fb9c04f0` (`fix: mount retry and logging (#3157)`, 2025-05-22), whose parent is `8b85144c0da42db558eec8e82899859cd278eaf9`. Use those parent commits as the two pre-fix buggy baselines for the ambient-capability and cgroup-mount log paths respectively. `git describe` places the PR #3150 parent at `v0.5.3-30-gdf8f3aaadb61` and the PR #3157 parent at `v0.5.3-53-g8b85144c0da4`, both before `v0.5.4`.
+
 ## Local Reproduction Files
 - `base_config.json`: clean OCI configuration before injecting the issue-specific payload.
 - `buggy_config.json`: modified OCI configuration containing the payload.

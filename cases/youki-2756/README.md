@@ -9,6 +9,9 @@
 ## Runtime Version Assessment
 Use the runtime version discussed in the upstream issue as the affected implementation and compare it with a fixed or reference runtime. Some cases require specific host support such as cgroup v1, cgroup v2, seccomp, eBPF device filtering, user namespaces, or hook execution support.
 
+## Buggy Version Identification
+The issue text does not provide a release tag, but it reproduces an `exec` behavior difference against runc with a debug-built youki from the developer checkout. The issue page is closed and links PR #2749 and PR #3131. Local git history did not expose an unambiguous `#2749` merge subject, while PR #3131 maps directly to `30d0b9babce3b160f0690964c478c53ebd8ab64f` (`use additional gids,user,group in exec, inject path iif not given (#3131)`, 2025-04-23). Use its parent `ec1d2ae5c316ce2e8f4a2bba13853c08a0ce157d` as the pre-fix buggy baseline for the exec compatibility part of this case. `git describe` identifies the parent as `v0.5.3-32-gec1d2ae5c316` and the fix as contained before `v0.5.4` (`v0.5.4~38`).
+
 ## Local Reproduction Files
 - `base_config.json`: clean OCI configuration before injecting the issue-specific payload.
 - `buggy_config.json`: modified OCI configuration containing the payload.

@@ -9,6 +9,9 @@
 ## Runtime Version Assessment
 Use the runtime version discussed in the upstream issue as the affected implementation and compare it with a fixed or reference runtime. Some cases require specific host support such as cgroup v1, cgroup v2, seccomp, eBPF device filtering, user namespaces, or hook execution support.
 
+## Buggy Version Identification
+Issue text explicitly names `runc 1.2.4` as affected: CPU shares 1024 is translated to cpu.weight 39 instead of 100. Git log matched the cgroups dependency bump `da9094784878`; parent `f24aa06ef6ac` is the pre-fix baseline for that dependency update.
+
 ## Local Reproduction Files
 - `base_config.json`: clean OCI configuration before injecting the issue-specific payload.
 - `buggy_config.json`: modified OCI configuration containing the payload.
