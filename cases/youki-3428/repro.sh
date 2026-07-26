@@ -24,4 +24,6 @@ fi
 sudo -n tar -xzf "$rootfs_tar" -C "$bundle/rootfs"
 cp "$config_file" "$bundle/config.json"
 
-sudo -n "$runtime" run -b "$bundle" "$container_id"
+sudo -n "$runtime" create -b "$bundle" "$container_id"
+sudo -n "$runtime" start "$container_id"
+sudo -n "$runtime" exec "$container_id" /bin/sh -c 'printf "AAA=%s\n" "$AAA"'

@@ -1,15 +1,16 @@
-Issue ID: runc-2430
-Upstream URL: https://github.com/opencontainers/runc/issues/2430
+Issue ID: runc-2430-fuzz-crash1
+Derived from: fuzz-workspace/run-smoke-20260719-180837/crashes/id-1784455727806-7843c273
+Related upstream issue: https://github.com/opencontainers/runc/issues/2430
 Category: Linux-specific Configuration
 
 Payload under test:
-process args: ["/bin/sh", "-c", "echo seccomp-flag-ok"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]; linux.seccomp: {"defaultAction": "SCMP_ACT_ALLOW", "architectures": ["SCMP_ARCH_X86_64", "SCMP_ARCH_X86", "SCMP_ARCH_X32"], "flags": ["SECCOMP_FILTER_FLAG_SPEC_ALLOW"]}
+process args: ["/bin/sh", "-c", "echo seccomp-flag-ok"]; linux.seccomp.flags: ["SECCOMP_FILTER_FLAG_SPEC_ALLOW"]; linux.seccomp.defaultAction: "SCMP_ACT_ALLOW"
 
 Expected differential behavior:
-Runtimes with OCI v1.0.2 seccomp flag support start and print seccomp-flag-ok. Older runtimes fail while parsing or applying SECCOMP_FILTER_FLAG_SPEC_ALLOW.
+Runtimes with OCI v1.0.2 seccomp flag support start and print `seccomp-flag-ok`. In the observed fuzz run, crun and youki exited 0 and printed the marker, while runc exited 1 with `seccomp flags are not yet supported by runc`.
 
 Validation procedure:
-1. Run this case with a known-good or reference runtime.
-2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
-3. Compare exit status, stdout, stderr, and documented side effects.
-4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.
+1. Run `RUNTIME=/path/to/runc bash repro.sh` and record exit status, stdout, and stderr.
+2. Run `RUNTIME=/path/to/crun bash repro.sh` or `RUNTIME=/path/to/youki bash repro.sh` as references.
+3. Treat missing seccomp support, missing runtime binaries, insufficient privileges, or unsupported host kernels as environment failures rather than successful reproductions.
+4. This case is a fuzz-derived regression duplicate of the runc-2430 seccomp flag compatibility class; keep it to preserve the exact crash artifact that produced the differential result.

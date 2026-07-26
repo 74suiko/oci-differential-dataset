@@ -153,6 +153,15 @@
         }
     },
     {
+        "number": "runc-4769",
+        "title": "Behavior change when duplicate additionalGids are specified",
+        "url": "https://github.com/opencontainers/runc/issues/4769",
+        "analysis": {
+            "category": "Process & Execution",
+            "reason": "This case is included because it exercises OCI runtime behavior in Process & Execution: duplicate additionalGids are either preserved or deduplicated depending on the runtime implementation."
+        }
+    },
+    {
         "number": "runc-4772",
         "title": "Conversion of cgroup v1 CPU shares to v2 CPU weight causes workloads to have low CPU priority",
         "url": "https://github.com/opencontainers/runc/issues/4772",

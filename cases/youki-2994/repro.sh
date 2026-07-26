@@ -24,4 +24,19 @@ fi
 sudo -n tar -xzf "$rootfs_tar" -C "$bundle/rootfs"
 cp "$config_file" "$bundle/config.json"
 
-sudo -n "$runtime" run -b "$bundle" "$container_id"
+sudo -n rm -f /tmp/oci_state.json
+cd "$bundle"
+set +e
+sudo -n "$runtime" run "$container_id"
+run_status=$?
+set -e
+
+printf 'run_status=%s\n' "$run_status"
+if [[ -f /tmp/oci_state.json ]]; then
+  cat /tmp/oci_state.json
+  echo
+else
+  echo "missing /tmp/oci_state.json"
+fi
+
+exit "$run_status"

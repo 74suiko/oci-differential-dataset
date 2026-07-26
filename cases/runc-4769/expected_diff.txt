@@ -1,0 +1,18 @@
+Issue ID: runc-4769
+Upstream URL: https://github.com/opencontainers/runc/issues/4769
+Category: Process & Execution
+
+Payload under test:
+process.user: {"uid": 0, "gid": 0, "additionalGids": [1000, 2000, 3000, 3000]}; process args: ["/usr/bin/id"]
+
+Expected differential behavior:
+runc v1.3.0 preserves duplicate additionalGids, so `id` reports `groups=1000,2000,3000,3000`.
+runc v1.2.6 deduplicates duplicate additionalGids, so `id` reports `groups=1000,2000,3000`.
+crun 1.14.1 also preserves duplicate additionalGids, while youki follows the older runc behavior and deduplicates them.
+
+Validation procedure:
+1. Run this case with the affected runtime, for example `RUNTIME=/path/to/runc-v1.3.0 bash repro.sh`.
+2. Run the same `buggy_config.json` with a reference runtime, for example `RUNTIME=/path/to/runc-v1.2.6 bash repro.sh`.
+3. Compare stdout from `id`; the useful signal is whether the second `3000` is preserved or removed.
+4. Run `CONFIG=base_config.json bash repro.sh` as a sanity check; the baseline should report `groups=1000,2000,3000`.
+5. Treat missing runtime binaries, missing rootfs archive, or insufficient privileges as environment failures rather than successful reproductions.
