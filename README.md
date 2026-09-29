@@ -108,3 +108,11 @@ If a case fails because the host lacks a required kernel feature, cgroup control
 - Race-condition and lifecycle cases may require repeated runs or manual inspection.
 - Several scripts require root privileges or passwordless sudo depending on the runtime and host configuration.
 - The dataset uses a small Alpine root filesystem to keep cases compact; image-specific bugs may require additional fixtures.
+
+## Revision Audit Extension (2026-09-29)
+
+The repository now includes 26 runtime-specific extension cases imported from the revision audit. They are stored as separate variants when one upstream issue has multiple runtime or parameter combinations. The eight R97 feature trials are intentionally not imported as standalone cases because they are partial subitems of one aggregate case.
+
+The imported cases preserve the audit status in each case README. “Existing fix code” and “existing fix PR” are provenance labels; they do not mean that the fixed revision was rebuilt or executed. The extension should therefore be reported with independent issue-family counts and runtime-variant counts separately.
+
+The imported cases were constructed from the audit CSV and upstream references. Runtime execution, exhaustive duplicate search, and current-HEAD validation remain follow-up tasks.

@@ -1,0 +1,7 @@
+Case: youki-3758-create-runtime-nonzero-exit
+
+Expected differential behavior:
+- The `createRuntime` hook fails or times out.
+- The paired poststop marker distinguishes cleanup behavior from ordinary create/start failure.
+
+This is a tracked issue variant; the attached evidence does not establish current-version conformance.

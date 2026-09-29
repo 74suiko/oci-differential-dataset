@@ -1,0 +1,7 @@
+Case: crun-r79-seccomp-allow-with-errno
+
+Expected differential behavior:
+- The configuration installs an ERRNO seccomp rule for `getpid` with errnoRet=13.
+- Filter state must not be incorrectly reused across rules with different errno semantics.
+
+This case requires seccomp support and a runtime/version pair that exposes the historical cache behavior.

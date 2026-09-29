@@ -1,0 +1,7 @@
+Case: youki-3639-terminal-40x132
+
+Expected differential behavior:
+- `process.consoleSize` requests height=40 and width=132.
+- A conforming runtime should pass these dimensions to the created PTY.
+
+The script requires a Linux TTY-capable environment; terminal behavior is not validated on this Windows workspace.
