@@ -109,10 +109,24 @@ If a case fails because the host lacks a required kernel feature, cgroup control
 - Several scripts require root privileges or passwordless sudo depending on the runtime and host configuration.
 - The dataset uses a small Alpine root filesystem to keep cases compact; image-specific bugs may require additional fixtures.
 
-## Revision Audit Extension (2026-09-29)
+## Revision Audit Extension (2026-09-30)
 
-The repository now includes 26 runtime-specific extension cases imported from the revision audit. They are stored as separate variants when one upstream issue has multiple runtime or parameter combinations. The eight R97 feature trials are intentionally not imported as standalone cases because they are partial subitems of one aggregate case.
+The revision audit is represented by seven new issue-level cases plus the existing `runc-5182` case, which now absorbs its two poststart variants. Cases are named by their canonical upstream source rather than by individual commits or parameter variants. Variants remain selectable through `VARIANT` in each case's `repro.sh`.
 
-The imported cases preserve the audit status in each case README. “Existing fix code” and “existing fix PR” are provenance labels; they do not mean that the fixed revision was rebuilt or executed. The extension should therefore be reported with independent issue-family counts and runtime-variant counts separately.
+The merged cases are `crun-2197`, `crun-2220`, `youki-3604`, `youki-3527`, `runc-5493`, `youki-3758`, and `runtime-spec-1309`. The crun seccomp case is PR-sourced because no separate issue was identified. The R61 runc/youki observations share runtime-spec issue #1309 and are therefore represented by one cross-runtime case.
 
-The imported cases were constructed from the audit CSV and upstream references. Runtime execution, exhaustive duplicate search, and current-HEAD validation remain follow-up tasks.
+The source records span issue/PR creation dates from **2018-03** (runc #1765, retained as evidence for runtime-spec #1309) through **2026-09** (runc #5493 and youki #3758). The canonical issue sources themselves span **2026-02 through 2026-09**.
+
+| Canonical case | Source created | Source type |
+| --- | --- | --- |
+| `runtime-spec-1309` | 2026-02-17 | runtime-spec issue |
+| `runc-5182` | 2026-03-17 | runc issue |
+| `youki-3527` | 2026-05-04 | youki issue |
+| `youki-3604` | 2026-06-20 | youki issue |
+| `crun-2197` | 2026-08-19 | crun issue |
+| `crun-2220` | 2026-09-01 | crun pull request |
+| `runc-5493` | 2026-09-26 | runc issue |
+| `youki-3758` | 2026-09-27 | youki issue |
+| Linked evidence: `runc-1765` | 2018-03-26 | runc issue |
+
+Counts should distinguish issue-level cases, runtime implementations, and parameter variants. Source-side fixes and PR states remain provenance; current runtime execution is required before claiming a reproduction or repair.

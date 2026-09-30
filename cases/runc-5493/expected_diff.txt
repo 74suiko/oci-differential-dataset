@@ -1,0 +1,3 @@
+Case: runc-5493
+
+OCI requires duplicate rlimit types to be rejected. Both variants should fail with a duplicate-type error on a fixed/reference runtime and expose the historical acceptance on the affected runtime.

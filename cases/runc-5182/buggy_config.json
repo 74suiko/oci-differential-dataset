@@ -4,12 +4,15 @@
         "terminal": false,
         "user": {
             "uid": 0,
-            "gid": 0
+            "gid": 0,
+            "additionalGids": [
+                1000,
+                2000,
+                3000
+            ]
         },
         "args": [
-            "/bin/sh",
-            "-c",
-            "exit 0"
+            "/bin/true"
         ],
         "env": [
             "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
@@ -42,33 +45,11 @@
         ],
         "noNewPrivileges": true
     },
-    "hooks": {
-        "poststart": [
-            {
-                "path": "/bin/sh",
-                "args": [
-                    "sh",
-                    "-c",
-                    "touch /tmp/post-start; false"
-                ]
-            }
-        ],
-        "poststop": [
-            {
-                "path": "/bin/sh",
-                "args": [
-                    "sh",
-                    "-c",
-                    "touch /tmp/post-stop"
-                ]
-            }
-        ]
-    },
     "root": {
         "path": "rootfs",
-        "readonly": true
+        "readonly": false
     },
-    "hostname": "runc",
+    "hostname": "runc-5182",
     "mounts": [
         {
             "destination": "/proc",
@@ -192,6 +173,28 @@
             "/proc/irq",
             "/proc/sys",
             "/proc/sysrq-trigger"
+        ]
+    },
+    "hooks": {
+        "poststart": [
+            {
+                "path": "/bin/sh",
+                "args": [
+                    "sh",
+                    "-c",
+                    "touch /tmp/oci-diff-runc-5182-poststart; exit 1"
+                ]
+            }
+        ],
+        "poststop": [
+            {
+                "path": "/bin/sh",
+                "args": [
+                    "sh",
+                    "-c",
+                    "touch /tmp/oci-diff-runc-5182-poststop"
+                ]
+            }
         ]
     }
 }

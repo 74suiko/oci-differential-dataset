@@ -12,7 +12,9 @@
             ]
         },
         "args": [
-            "/bin/true"
+            "/bin/sh",
+            "-c",
+            "ulimit -n; exit 0"
         ],
         "env": [
             "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
@@ -39,8 +41,13 @@
         "rlimits": [
             {
                 "type": "RLIMIT_NOFILE",
-                "hard": 1024,
-                "soft": 1024
+                "hard": 64,
+                "soft": 32
+            },
+            {
+                "type": "RLIMIT_NOFILE",
+                "hard": 128,
+                "soft": 64
             }
         ],
         "noNewPrivileges": true
@@ -49,7 +56,7 @@
         "path": "rootfs",
         "readonly": false
     },
-    "hostname": "runc-5182",
+    "hostname": "runc-5493",
     "mounts": [
         {
             "destination": "/proc",

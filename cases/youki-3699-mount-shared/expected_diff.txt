@@ -1,7 +1,0 @@
-Case: youki-3699-mount-shared
-
-Expected differential behavior:
-- The configuration requests the OCI mount propagation option `shared` on a bind mount.
-- The reference/fixed implementation should apply the requested propagation semantics, including recursive propagation where required.
-
-This requires a Linux host with mount privileges and a runtime/version pair that exposes the historical difference. The cited fix was not executed by this import.

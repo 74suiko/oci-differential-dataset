@@ -1,0 +1,3 @@
+Case: runtime-spec-1309
+
+The OCI runtime-spec requires failed poststop hooks to log a warning and allow remaining hooks/lifecycle steps to continue. The second marker and delete status are the oracle.

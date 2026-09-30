@@ -1,0 +1,3 @@
+Case: crun-2220
+
+The two variants exercise an ERRNO seccomp rule with and without an explicit errno return value. A runtime must not reuse a cached filter generated for a different errno configuration.

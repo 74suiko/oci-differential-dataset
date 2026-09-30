@@ -1,15 +1,3 @@
-Issue ID: runc-5182
-Upstream URL: https://github.com/opencontainers/runc/issues/5182
-Category: POSIX-platform Hooks
+Case: runc-5182
 
-Payload under test:
-process args: ["/bin/sh", "-c", "exit 0"]; linux.resources.devices: [{"allow": false, "access": "rwm"}]; hooks: poststart, poststop
-
-Expected differential behavior:
-A reference runtime should run poststop cleanup after poststart failure. The affected behavior leaves /tmp/post-stop absent and prints poststop-missing.
-
-Validation procedure:
-1. Run this case with a known-good or reference runtime.
-2. Run the same `buggy_config.json` with the runtime version suspected to contain the historical issue.
-3. Compare exit status, stdout, stderr, and documented side effects.
-4. Treat missing host features, missing cgroup controllers, missing seccomp support, missing runtime binaries, or insufficient privileges as environment failures rather than successful reproductions.
+The canonical issue case covers `poststart-fail` and `poststart-sleep`. A reference behavior should reach poststop cleanup after poststart failure according to the lifecycle evidence; the historical runc behavior can leave the marker absent.

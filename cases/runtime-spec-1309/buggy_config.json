@@ -49,7 +49,7 @@
         "path": "rootfs",
         "readonly": false
     },
-    "hostname": "runc-5182",
+    "hostname": "runtime-spec-1309",
     "mounts": [
         {
             "destination": "/proc",
@@ -173,6 +173,26 @@
             "/proc/irq",
             "/proc/sys",
             "/proc/sysrq-trigger"
+        ]
+    },
+    "hooks": {
+        "poststop": [
+            {
+                "path": "/bin/sh",
+                "args": [
+                    "sh",
+                    "-c",
+                    "exit 1"
+                ]
+            },
+            {
+                "path": "/bin/sh",
+                "args": [
+                    "sh",
+                    "-c",
+                    "touch /tmp/oci-diff-runtime-spec-1309-second"
+                ]
+            }
         ]
     }
 }

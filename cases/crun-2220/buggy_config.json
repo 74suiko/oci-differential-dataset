@@ -12,7 +12,9 @@
             ]
         },
         "args": [
-            "/bin/true"
+            "/bin/sh",
+            "-c",
+            "getpid >/dev/null 2>&1; echo seccomp_status:$?"
         ],
         "env": [
             "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
@@ -49,7 +51,7 @@
         "path": "rootfs",
         "readonly": false
     },
-    "hostname": "runc-5182",
+    "hostname": "crun-2220",
     "mounts": [
         {
             "destination": "/proc",
@@ -173,6 +175,17 @@
             "/proc/irq",
             "/proc/sys",
             "/proc/sysrq-trigger"
-        ]
+        ],
+        "seccomp": {
+            "defaultAction": "SCMP_ACT_ALLOW",
+            "syscalls": [
+                {
+                    "names": [
+                        "getpid"
+                    ],
+                    "action": "SCMP_ACT_ERRNO"
+                }
+            ]
+        }
     }
 }

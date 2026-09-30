@@ -1,7 +1,0 @@
-Case: runc-5182-poststart-fail
-
-Expected differential behavior:
-- The poststart hook fails after being invoked.
-- The reference behavior should complete the lifecycle and run the poststop cleanup marker according to the OCI lifecycle rule.
-
-The upstream PR changes hook ordering but does not claim the full cleanup behavior is fixed.

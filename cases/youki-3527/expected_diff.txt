@@ -1,0 +1,3 @@
+Case: youki-3527
+
+The runtime should pass the requested OCI consoleSize to the PTY. Compare both dimensions in a TTY-capable Linux environment.

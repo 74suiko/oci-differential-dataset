@@ -49,7 +49,7 @@
         "path": "rootfs",
         "readonly": false
     },
-    "hostname": "runc-5182",
+    "hostname": "youki-3604",
     "mounts": [
         {
             "destination": "/proc",

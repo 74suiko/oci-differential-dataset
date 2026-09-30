@@ -1,7 +1,0 @@
-Case: runc-5493-rlimit-identical-values
-
-Expected differential behavior:
-- The buggy configuration contains duplicate RLIMIT_NOFILE entries (identical-values).
-- A conforming/reference runtime should reject duplicate rlimit types with an error.
-
-The supplied upstream PR is still open in the audit snapshot. This case is an evidence-backed candidate and has not been runtime-validated by this import.

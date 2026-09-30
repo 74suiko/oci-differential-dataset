@@ -1,7 +1,0 @@
-Case: crun-r76-seccomp-errno-default
-
-Expected differential behavior:
-- The configuration installs an ERRNO seccomp rule for `getpid`.
-- Filter state must not be incorrectly reused across rules with different errno semantics.
-
-This case requires seccomp support and a runtime/version pair that exposes the historical cache behavior.

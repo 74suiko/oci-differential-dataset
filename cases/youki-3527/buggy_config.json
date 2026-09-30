@@ -1,7 +1,7 @@
 {
     "ociVersion": "1.0.2",
     "process": {
-        "terminal": false,
+        "terminal": true,
         "user": {
             "uid": 0,
             "gid": 0,
@@ -12,7 +12,9 @@
             ]
         },
         "args": [
-            "/bin/true"
+            "/bin/sh",
+            "-c",
+            "stty size 2>/dev/null || true"
         ],
         "env": [
             "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
@@ -43,13 +45,17 @@
                 "soft": 1024
             }
         ],
-        "noNewPrivileges": true
+        "noNewPrivileges": true,
+        "consoleSize": {
+            "height": 24,
+            "width": 80
+        }
     },
     "root": {
         "path": "rootfs",
         "readonly": false
     },
-    "hostname": "runc-5182",
+    "hostname": "youki-3527",
     "mounts": [
         {
             "destination": "/proc",

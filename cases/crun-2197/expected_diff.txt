@@ -1,0 +1,3 @@
+Case: crun-2197
+
+The issue family concerns recursive bind-mount propagation. `rslave` and `runbindable` are parameter variants; compare the requested propagation semantics on an affected and a fixed/reference crun.

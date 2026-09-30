@@ -1,7 +1,0 @@
-Case: runc-1765-poststop-sleep
-
-Expected differential behavior:
-- The first poststop hook fails after sleeping.
-- OCI runtime-spec requires the remaining poststop hooks and lifecycle to continue; the second marker should be present and deletion should succeed.
-
-The cited runtime discussion leaves this as a known specification/implementation divergence.

@@ -12,7 +12,9 @@
             ]
         },
         "args": [
-            "/bin/true"
+            "/bin/sh",
+            "-c",
+            "findmnt -n -o OPTIONS /mnt/oci-probe 2>/dev/null || true"
         ],
         "env": [
             "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
@@ -49,7 +51,7 @@
         "path": "rootfs",
         "readonly": false
     },
-    "hostname": "runc-5182",
+    "hostname": "crun-2197",
     "mounts": [
         {
             "destination": "/proc",
@@ -123,6 +125,15 @@
                 "nodev",
                 "relatime",
                 "ro"
+            ]
+        },
+        {
+            "destination": "/mnt/oci-probe",
+            "type": "bind",
+            "source": "/tmp/oci-diff-crun-2197-source",
+            "options": [
+                "bind",
+                "rslave"
             ]
         }
     ],

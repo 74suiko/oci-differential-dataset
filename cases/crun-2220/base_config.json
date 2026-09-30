@@ -49,7 +49,7 @@
         "path": "rootfs",
         "readonly": false
     },
-    "hostname": "runc-5182",
+    "hostname": "crun-2220",
     "mounts": [
         {
             "destination": "/proc",

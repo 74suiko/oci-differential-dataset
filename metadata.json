@@ -185,7 +185,17 @@
         "url": "https://github.com/opencontainers/runc/issues/5182",
         "analysis": {
             "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: poststop hook is not run if poststart hook fails."
+            "source_type": "issue",
+            "source_repo": "opencontainers/runc",
+            "source_number": 5182,
+            "variants": [
+                "poststart-fail",
+                "poststart-sleep"
+            ],
+            "related_sources": [
+                "https://github.com/opencontainers/runc/pull/5186"
+            ],
+            "reason": "The existing runc-5182 case absorbs the audit variants; no duplicate directory is added."
         }
     },
     {
@@ -288,237 +298,131 @@
         }
     },
     {
-        "number": "crun-r44-mount-rslave",
-        "title": "Recursive slave mount propagation",
-        "url": "https://github.com/containers/crun/commit/ea4672d34ca7057ea46d537f0183bddfef250e9c",
+        "number": "crun-2197",
+        "title": "Starting a rootful distrobox via podman completely breaks the system",
+        "url": "https://github.com/containers/crun/issues/2197",
         "analysis": {
             "category": "Filesystem & Mounts",
-            "reason": "This case is included because it exercises OCI runtime behavior in Filesystem & Mounts: Recursive slave mount propagation."
+            "source_type": "issue",
+            "source_repo": "containers/crun",
+            "source_number": 2197,
+            "variants": [
+                "rslave",
+                "runbindable"
+            ],
+            "reason": "OCI mount propagation issue; variants are retained under one issue-level case."
         }
     },
     {
-        "number": "crun-r44-mount-runbindable",
-        "title": "Recursive unbindable mount propagation",
-        "url": "https://github.com/containers/crun/commit/ea4672d34ca7057ea46d537f0183bddfef250e9c",
-        "analysis": {
-            "category": "Filesystem & Mounts",
-            "reason": "This case is included because it exercises OCI runtime behavior in Filesystem & Mounts: Recursive unbindable mount propagation."
-        }
-    },
-    {
-        "number": "crun-r76-seccomp-errno-default",
-        "title": "Seccomp ERRNO rule with default errno",
-        "url": "https://github.com/containers/crun/commit/10b754c749d1c42bff3e8190db20b34a05317485",
+        "number": "crun-2220",
+        "title": "Seccomp filter cache key omits errno-related fields",
+        "url": "https://github.com/containers/crun/pull/2220",
         "analysis": {
             "category": "Linux-specific Configuration",
-            "reason": "This case is included because it exercises OCI runtime behavior in Linux-specific Configuration: Seccomp ERRNO rule with default errno."
+            "source_type": "pull_request",
+            "source_repo": "containers/crun",
+            "source_number": 2220,
+            "variants": [
+                "errno-default",
+                "allow-with-errno"
+            ],
+            "reason": "The R76/R79 audit rows share one PR and are merged into one case."
         }
     },
     {
-        "number": "crun-r79-seccomp-allow-with-errno",
-        "title": "Seccomp allow rule with errno-specific filter state",
-        "url": "https://github.com/containers/crun/commit/10b754c749d1c42bff3e8190db20b34a05317485",
-        "analysis": {
-            "category": "Linux-specific Configuration",
-            "reason": "This case is included because it exercises OCI runtime behavior in Linux-specific Configuration: Seccomp allow rule with errno-specific filter state."
-        }
-    },
-    {
-        "number": "youki-3699-mount-shared",
-        "title": "Per-mount shared propagation option",
-        "url": "https://github.com/youki-dev/youki/pull/3699",
+        "number": "youki-3604",
+        "title": "Implement OCI per-mount propagation options such as rshared and rslave",
+        "url": "https://github.com/youki-dev/youki/issues/3604",
         "analysis": {
             "category": "Filesystem & Mounts",
-            "reason": "This case is included because it exercises OCI runtime behavior in Filesystem & Mounts: Per-mount shared propagation option."
+            "source_type": "issue",
+            "source_repo": "youki-dev/youki",
+            "source_number": 3604,
+            "variants": [
+                "shared",
+                "rshared",
+                "slave",
+                "rslave",
+                "unbindable",
+                "runbindable"
+            ],
+            "reason": "PR #3699 fixes this issue; propagation modes are variants."
         }
     },
     {
-        "number": "youki-3699-mount-rshared",
-        "title": "Per-mount rshared propagation option",
-        "url": "https://github.com/youki-dev/youki/pull/3699",
-        "analysis": {
-            "category": "Filesystem & Mounts",
-            "reason": "This case is included because it exercises OCI runtime behavior in Filesystem & Mounts: Per-mount rshared propagation option."
-        }
-    },
-    {
-        "number": "youki-3699-mount-slave",
-        "title": "Per-mount slave propagation option",
-        "url": "https://github.com/youki-dev/youki/pull/3699",
-        "analysis": {
-            "category": "Filesystem & Mounts",
-            "reason": "This case is included because it exercises OCI runtime behavior in Filesystem & Mounts: Per-mount slave propagation option."
-        }
-    },
-    {
-        "number": "youki-3699-mount-rslave",
-        "title": "Per-mount rslave propagation option",
-        "url": "https://github.com/youki-dev/youki/pull/3699",
-        "analysis": {
-            "category": "Filesystem & Mounts",
-            "reason": "This case is included because it exercises OCI runtime behavior in Filesystem & Mounts: Per-mount rslave propagation option."
-        }
-    },
-    {
-        "number": "youki-3699-mount-unbindable",
-        "title": "Per-mount unbindable propagation option",
-        "url": "https://github.com/youki-dev/youki/pull/3699",
-        "analysis": {
-            "category": "Filesystem & Mounts",
-            "reason": "This case is included because it exercises OCI runtime behavior in Filesystem & Mounts: Per-mount unbindable propagation option."
-        }
-    },
-    {
-        "number": "youki-3699-mount-runbindable",
-        "title": "Per-mount runbindable propagation option",
-        "url": "https://github.com/youki-dev/youki/pull/3699",
-        "analysis": {
-            "category": "Filesystem & Mounts",
-            "reason": "This case is included because it exercises OCI runtime behavior in Filesystem & Mounts: Per-mount runbindable propagation option."
-        }
-    },
-    {
-        "number": "youki-3639-terminal-24x80",
-        "title": "PTY console size 24x80",
-        "url": "https://github.com/youki-dev/youki/pull/3639",
+        "number": "youki-3527",
+        "title": "Difference between the Terminals and Standard IO in runc and youki",
+        "url": "https://github.com/youki-dev/youki/issues/3527",
         "analysis": {
             "category": "Process & Execution",
-            "reason": "This case is included because it exercises OCI runtime behavior in Process & Execution: PTY console size 24x80."
+            "source_type": "issue",
+            "source_repo": "youki-dev/youki",
+            "source_number": 3527,
+            "variants": [
+                "24x80",
+                "40x132"
+            ],
+            "reason": "PR #3639 is part of this issue; console sizes are variants."
         }
     },
     {
-        "number": "youki-3639-terminal-40x132",
-        "title": "PTY console size 40x132",
-        "url": "https://github.com/youki-dev/youki/pull/3639",
-        "analysis": {
-            "category": "Process & Execution",
-            "reason": "This case is included because it exercises OCI runtime behavior in Process & Execution: PTY console size 40x132."
-        }
-    },
-    {
-        "number": "runc-5493-rlimit-conflicting-values",
-        "title": "Reject conflicting duplicate rlimit values",
+        "number": "runc-5493",
+        "title": "runc accepts duplicate RLIMIT_NOFILE entries and starts the container",
         "url": "https://github.com/opencontainers/runc/issues/5493",
         "analysis": {
             "category": "Process & Execution",
-            "reason": "This case is included because it exercises OCI runtime behavior in Process & Execution: Reject conflicting duplicate rlimit values."
+            "source_type": "issue",
+            "source_repo": "opencontainers/runc",
+            "source_number": 5493,
+            "variants": [
+                "conflicting-values",
+                "identical-values"
+            ],
+            "reason": "PR #5494 proposes the fix; duplicate-value forms are variants."
         }
     },
     {
-        "number": "runc-5493-rlimit-identical-values",
-        "title": "Reject identical duplicate rlimit values",
-        "url": "https://github.com/opencontainers/runc/issues/5493",
-        "analysis": {
-            "category": "Process & Execution",
-            "reason": "This case is included because it exercises OCI runtime behavior in Process & Execution: Reject identical duplicate rlimit values."
-        }
-    },
-    {
-        "number": "runc-5182-poststart-fail",
-        "title": "Poststart failure cleanup: poststart-fail",
-        "url": "https://github.com/opencontainers/runc/issues/5182",
-        "analysis": {
-            "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: Poststart failure cleanup: poststart-fail."
-        }
-    },
-    {
-        "number": "runc-5182-poststart-sleep",
-        "title": "Poststart failure cleanup: poststart-sleep",
-        "url": "https://github.com/opencontainers/runc/issues/5182",
-        "analysis": {
-            "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: Poststart failure cleanup: poststart-sleep."
-        }
-    },
-    {
-        "number": "youki-3758-create-runtime-nonzero-exit",
-        "title": "createRuntime hook nonzero-exit does not trigger poststop cleanup",
+        "number": "youki-3758",
+        "title": "youki does not invoke poststop after a createRuntime hook fails or times out",
         "url": "https://github.com/youki-dev/youki/issues/3758",
         "analysis": {
             "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: createRuntime hook nonzero-exit does not trigger poststop cleanup."
+            "source_type": "issue",
+            "source_repo": "youki-dev/youki",
+            "source_number": 3758,
+            "variants": [
+                "createRuntime-nonzero",
+                "createRuntime-timeout",
+                "prestart-fail",
+                "prestart-sleep",
+                "createContainer-fail",
+                "createContainer-sleep"
+            ],
+            "reason": "The createRuntime forms are directly sourced; other hook stages are explicitly marked extension variants."
         }
     },
     {
-        "number": "youki-3758-create-runtime-timeout",
-        "title": "createRuntime hook timeout does not trigger poststop cleanup",
-        "url": "https://github.com/youki-dev/youki/issues/3758",
+        "number": "runtime-spec-1309",
+        "title": "Spec poststop hook behaviour is different from the popular implementations",
+        "url": "https://github.com/opencontainers/runtime-spec/issues/1309",
         "analysis": {
             "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: createRuntime hook timeout does not trigger poststop cleanup."
-        }
-    },
-    {
-        "number": "youki-3758-prestart-fail",
-        "title": "prestart-fail failure cleanup behavior",
-        "url": "https://github.com/youki-dev/youki/issues/3758",
-        "analysis": {
-            "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: prestart-fail failure cleanup behavior."
-        }
-    },
-    {
-        "number": "youki-3758-prestart-sleep",
-        "title": "prestart-sleep failure cleanup behavior",
-        "url": "https://github.com/youki-dev/youki/issues/3758",
-        "analysis": {
-            "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: prestart-sleep failure cleanup behavior."
-        }
-    },
-    {
-        "number": "youki-3758-createcontainer-fail",
-        "title": "createContainer-fail failure cleanup behavior",
-        "url": "https://github.com/youki-dev/youki/issues/3758",
-        "analysis": {
-            "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: createContainer-fail failure cleanup behavior."
-        }
-    },
-    {
-        "number": "youki-3758-createcontainer-sleep",
-        "title": "createContainer-sleep failure cleanup behavior",
-        "url": "https://github.com/youki-dev/youki/issues/3758",
-        "analysis": {
-            "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: createContainer-sleep failure cleanup behavior."
-        }
-    },
-    {
-        "number": "runc-1765-poststop-fail",
-        "title": "Poststop hook continuation after fail",
-        "url": "https://github.com/opencontainers/runc/issues/1765",
-        "analysis": {
-            "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: Poststop hook continuation after fail."
-        }
-    },
-    {
-        "number": "runc-1765-poststop-sleep",
-        "title": "Poststop hook continuation after sleep",
-        "url": "https://github.com/opencontainers/runc/issues/1765",
-        "analysis": {
-            "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: Poststop hook continuation after sleep."
-        }
-    },
-    {
-        "number": "youki-3407-poststop-fail",
-        "title": "Poststop hook continuation after fail",
-        "url": "https://github.com/youki-dev/youki/pull/3407",
-        "analysis": {
-            "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: Poststop hook continuation after fail."
-        }
-    },
-    {
-        "number": "youki-3407-poststop-sleep",
-        "title": "Poststop hook continuation after sleep",
-        "url": "https://github.com/youki-dev/youki/pull/3407",
-        "analysis": {
-            "category": "POSIX-platform Hooks",
-            "reason": "This case is included because it exercises OCI runtime behavior in POSIX-platform Hooks: Poststop hook continuation after sleep."
+            "source_type": "issue",
+            "source_repo": "opencontainers/runtime-spec",
+            "source_number": 1309,
+            "implementations": [
+                "runc",
+                "youki"
+            ],
+            "variants": [
+                "fail",
+                "sleep"
+            ],
+            "related_sources": [
+                "https://github.com/opencontainers/runc/issues/1765",
+                "https://github.com/youki-dev/youki/pull/3407"
+            ],
+            "reason": "One cross-runtime specification discrepancy replaces duplicate implementation directories."
         }
     }
 ]

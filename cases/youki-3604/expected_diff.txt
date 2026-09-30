@@ -1,0 +1,3 @@
+Case: youki-3604
+
+The six propagation options are variants of one per-mount OCI feature. Validate each requested option against a reference runtime and the affected/fixed youki version.
